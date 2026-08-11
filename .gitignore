@@ -24,3 +24,6 @@ models/
 # Secrets
 .env
 .env.*
+
+# CatBoost files
+catboost_info/
