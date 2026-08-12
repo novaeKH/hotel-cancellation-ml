@@ -43,30 +43,65 @@ class CancellationPredictor:
             'drop_cols'
         ]
 
-    def predict(self, data: pd.DataFrame) -> dict:
+    def predict(self, data: pd.DataFrame) -> dict: # Если объект один
+        if len(data) != 1:
+            raise ValueError(
+                "predict() выдает только одно предсказание"
+            )
+
+        result = self.predict_batch(data).iloc[0]
+
+        return {
+            "prediction": int(result["prediction"]),
+            "cancellation_probability": float(
+                result["cancellation_probability"]
+            ),
+            "threshold": self.threshold,
+            "model_version": "v1",
+        }
+
+    def _prepare_input(self, data: pd.DataFrame) -> pd.DataFrame:
         X = build_features(data)
+
+        missing_cols = [
+            col for col in self.input_cols
+            if col not in X.columns
+        ]
+
+        if missing_cols:
+            raise ValueError(
+                f"Отсутствуют необходимые columns: {missing_cols}"
+            )
+
         X = X[self.input_cols].copy()
 
         for col in self.categorical_cols:
             X[col] = (
                 X[col]
-                .astype('object')
+                .astype("object")
                 .where(X[col].notna(), np.nan)
             )
 
+        return X
+
+    def predict_batch(self, data: pd.DataFrame) -> pd.DataFrame:  # Если объектов много
+        X = self._prepare_input(data)
+
         X_enc = self.preprocessor.transform(X)
 
-        probability = self.model.predict_proba(
+        probabilities = self.model.predict_proba(
             X_enc
-        )[:,1][0]
+        )[:, 1]
 
-        prediction = int(
-            probability >= self.threshold
+        predictions = (
+            probabilities >= self.threshold
+        ).astype(int)
+
+        return pd.DataFrame(
+            {
+                "prediction": predictions,
+                "cancellation_probability": probabilities,
+                "model_version": "v1",
+            },
+            index=data.index,
         )
-
-        return {
-            'prediction': prediction,
-            'cancellation_probability': float(probability),
-            'threshold': self.threshold,
-            'model_version': 'v1'
-        }
