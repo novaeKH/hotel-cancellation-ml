@@ -8,7 +8,7 @@ from src.inference import CancellationPredictor
 
 app = FastAPI(
     title="Hotel Cancellation API",
-    version="1.0.0",
+    version="2.0.0",
 )
 
 predictor = CancellationPredictor()
@@ -18,7 +18,7 @@ predictor = CancellationPredictor()
 def health():
     return {
         "status": "ok",
-        "model_version": "v1",
+        "model_version": predictor.model_version,
     }
 
 
