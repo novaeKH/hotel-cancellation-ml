@@ -5,7 +5,6 @@ import pandas as pd
 def build_features(data: pd.DataFrame) -> pd.DataFrame:
     df = data.copy()
 
-    # Cleaning-derived features
     df["has_children"] = (
         df["children"].fillna(0) + df["babies"] > 0
     ).astype(int)
@@ -36,7 +35,6 @@ def build_features(data: pd.DataFrame) -> pd.DataFrame:
         )
     )
 
-    # Feature engineering
     df["total_guests"] = (
         df["adults"]
         + df["children"].fillna(0)
