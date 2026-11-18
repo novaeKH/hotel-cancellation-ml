@@ -1,31 +1,16 @@
-# Python
+__pycache__/
+*.py[cod]
 .venv/
 venv/
-__pycache__/
-*.pyc
-*.pyo
-
-# Jupyter
 .ipynb_checkpoints/
-
-# IDE
-.vscode/
-.idea/
-
-# OS
 .DS_Store
-Thumbs.db
-
-# Models
-models/*
-!models/catboost_v2.cbm
-!models/model_metadata.json
-*.joblib
-*.pkl
-
-# Secrets
 .env
 .env.*
-
-# CatBoost files
 catboost_info/
+*.log
+
+data/raw/
+data/interim/
+data/processed/
+models/trained/
+reports/evaluation/predictions.parquet

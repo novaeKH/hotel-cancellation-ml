@@ -1,0 +1,29 @@
+{
+  "seed": 42,
+  "catboost_iterations": 400,
+  "learning_rate": 0.05,
+  "validation_months": [
+    "2017-01",
+    "2017-02"
+  ],
+  "evaluation_months": [
+    "2017-03",
+    "2017-04",
+    "2017-05",
+    "2017-06",
+    "2017-07",
+    "2017-08"
+  ],
+  "daily_review_share": 0.1,
+  "quota_rounding": "ceil per hotel and arrival date",
+  "raw_sha256": "7c2ae42a7353905ea136e5c2287f17c92c5435826598bfbb8491c6f0c7b1fc06",
+  "raw_rows": 119390,
+  "eligible_rows": 70908,
+  "python": "3.11.15",
+  "packages": {
+    "numpy": "1.26.4",
+    "pandas": "2.2.3",
+    "scikit-learn": "1.6.1",
+    "catboost": "1.2.8"
+  }
+}
