@@ -1,0 +1,14 @@
+{
+  "raw_rows": 119390,
+  "duplicate_rows": 31994,
+  "same_day_bookings": 6345,
+  "already_canceled": 42137,
+  "eligible_rows": 70908,
+  "late_cancellations": 1657,
+  "late_cancellation_rate": 0.023368308230383033,
+  "missing_target": 0,
+  "missing_children": 4,
+  "zero_guests": 180,
+  "arrival_start": "2015-07-01",
+  "arrival_end": "2017-08-31"
+}

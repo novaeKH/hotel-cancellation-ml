@@ -1,34 +1,17 @@
-import pandas as pd
-
 from fastapi import FastAPI
+from hotel_booking.inference import CancellationPredictor
 
 from api.schemas import BookingRequest, PredictionResponse
-from src.inference import CancellationPredictor
 
-
-app = FastAPI(
-    title="Hotel Cancellation API",
-    version="2.0.0",
-)
-
+app = FastAPI(title="Late Cancellation Demo", version="3.0.0")
 predictor = CancellationPredictor()
 
 
 @app.get("/health")
 def health():
-    return {
-        "status": "ok",
-        "model_version": predictor.model_version,
-    }
+    return {"status": "ok", "trained_before": predictor.metadata["trained_before"]}
 
 
-@app.post(
-    "/predict",
-    response_model=PredictionResponse,
-)
+@app.post("/predict", response_model=PredictionResponse)
 def predict(booking: BookingRequest):
-    data = pd.DataFrame(
-        [booking.model_dump()]
-    )
-
-    return predictor.predict(data)
+    return predictor.predict(booking.model_dump())
